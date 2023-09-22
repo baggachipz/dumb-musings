@@ -56,12 +56,17 @@ To test this, I created a [spreadsheet](/img/mt-fortune.xlsx). For 28 consecutiv
   <figcaption>Which card you choose does not seem to affect whether a rock appears or not.</figcaption>
 </figure>
 
-Also, when looking at each day's play, the number of rocks wasn't constant but was pretty consistent. It's interesting to know that in every case, the percentage of cards which exposed a rock was _at least_ 25%, sometimes as high as 45%! (Remember, "basecamp" cards at positions 5,10,15,20, and 25 can't have rocks).
+Also, when looking at each day's play, the number of rocks wasn't constant but was pretty consistent. It's interesting to know that in every case, the percentage of cards which exposed a rock was _at least_ 25%, sometimes as high as 45%! (Remember, "basecamp" cards at positions 5,10,15,20, and 25 can't have rocks):
+
+<figure class="chart">
+  <img src="/img/mt-fortune-by-date.png" alt="Mt. Fortune rocks by day" />
+  <figcaption>Some days, the game likes giving you more rocks than others. But never fewer!</figcaption>
+</figure>
 
 But the truly telling chart is the position in which rocks tend to appear:
 
 <figure class="chart">
-  <img src="/img/mt-fortune-by-level.png" alt="Mt. Fortune card distribution" />
+  <img src="/img/mt-fortune-by-level.png" alt="Mt. Fortune rock distribution by position" />
   <figcaption>Rocks sure do love to appear right before and after those basecamp stations!</figcaption>
 </figure>
 
