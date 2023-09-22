@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind effects;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+    @apply py-4;
+  }
+  h2 {
+    @apply text-2xl;
+    @apply py-3;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  p {
+    @apply py-1.5;
+  }
+  a {
+    @apply text-blue-600 underline;
+  }
+  figure {
+    @apply max-w-sm;
+    @apply mx-auto;
+    @apply max-w-sm;
+    @apply p-3;
+    @apply inline-block;
+  }
+  figure.chart {
+    @apply max-w-fit;
+  }
+  figure figcaption {
+    @apply italic;
+    @apply my-1;
+    @apply text-center;
+  }
+  figure img {
+    @apply shadow-md;
+  }
+}
