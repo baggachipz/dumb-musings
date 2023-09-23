@@ -12,7 +12,7 @@ tl;dr: It's all rigged! [_Clutches pearls, faints_]
 ## Introduction to the Game
 
 
-[Wordscapes](https://en.wikipedia.org/wiki/Wordscapes) is a well-known simple, addictive, and fun word-based game on mobile devices. The base game is very simple: Use a set of available letters to compose proper words to solve a crossword-like puzzle. It has a thriving community of players which can congregate in teams and compete in tournaments.
+[Wordscapes](https://en.wikipedia.org/wiki/Wordscapes) is a well-known simple, addictive, and fun word-based game on mobile devices. The core gameplay is very simple: Use a set of available letters to compose proper words to solve a crossword-like puzzle. It has a thriving community of players which can congregate in teams and compete in tournaments.
 
 ## The Setup
 
@@ -49,7 +49,7 @@ Given that one is presented with four cards, one being a hazard, the assumption 
 
 ## The Scam, Visualized
 
-To test this, I created a [spreadsheet](/img/mt-fortune.xlsx). For 28 consecutive days, I played the game in full; paying to continue when a rock appeard, until I reached the end. (This cost me a lot of coins!) To control for selection bias, I randomized (`RANDBETWEEN(1,4)`) the card to choose and recorded the result of my choice for each step: rock or no rock. The result of which card I chose didn't really affect whether it was a rock:
+To test this, I created a [spreadsheet](/img/mt-fortune.xlsx). For 28 consecutive days, I played the game in full; paying to continue when a rock appeared, until I reached the end. (This cost me a lot of coins!) To control for selection bias, I randomized (`RANDBETWEEN(1,4)`) the card to choose and recorded the result of my choice for each step: rock or no rock. Much credit to my big-brained data analyst wife for the fancy charts. The result of which card I chose didn't really affect whether it was a rock:
 
 <figure class="chart">
   <img src="/img/mt-fortune-by-card.png" alt="Mt. Fortune card distribution" />
