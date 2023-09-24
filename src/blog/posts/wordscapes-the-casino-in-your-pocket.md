@@ -76,7 +76,7 @@ According to me, it would seem that the "safest" strategy to reap rewards with t
 
 ## What's Really Happening?
 
-The answer is obvious to programmers, but maybe not anybody else: When the cards are shown to you on the screen, _their contents are not yet determined_. When you tap one of the cards, the content to be revealed is calculated at that moment by an [algorithm](https://en.wikipedia.org/wiki/Algorithm). The game chooses what to show you, based on its instructions. If the programmer said "show them a rock at step 19 today", that's what you're going to get. Your choice of card has no bearing on the outcome. Just like a magician uses sleight-of-hand to deceive you, these games use visual deception to accomplish their goal.
+The answer is obvious to programmers, but maybe not anybody else: When the cards are shown to you on the screen, _their contents are not yet determined_. When you tap one of the cards, the content to be revealed is calculated at that moment by an [algorithm](https://en.wikipedia.org/wiki/Algorithm). The game chooses what to show you, based on its instructions. If the programmer said "show them a rock at step 19 today", that's what you're going to get. Your choice of card has no bearing on the outcome. Just like a magician uses sleight-of-hand to dupe you, these games use visual deception to accomplish their goal.
 
 ## Conclusion
 
