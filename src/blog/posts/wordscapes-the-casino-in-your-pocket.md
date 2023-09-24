@@ -74,6 +74,10 @@ Whoa. Nothing creates a sense of urgency like snatching away your rewards right 
 
 According to me, it would seem that the "safest" strategy to reap rewards with the lowest risk of spending coins would be to play through step 8 and then cash out. Or, you can plow on, flinging worthless in-game currency to the tune of 70,000 coins. It's for science, right?
 
+## What's Really Happening?
+
+The answer is obvious to programmers, but maybe not anybody else: When the cards are shown to you on the screen, _their contents are not yet determined_. When you tap one of the cards, the content to be revealed is calculated at that moment by an [algorithm](https://en.wikipedia.org/wiki/Algorithm). The game chooses what to show you, based on its instructions. If the programmer said "show them a rock at step 19 today", that's what you're going to get. Your choice of card has no bearing on the outcome. Just like a magician uses sleight-of-hand to deceive you, these games use visual deception to accomplish their goal.
+
 ## Conclusion
 
 I'm sure this doesn't come as much of a surprise to anybody that the game is rigged in the house's favor. The choice presented to the player is entirely an illusion, masked as a game of chance. In a casino, any rational adult expects this. For games which allow real-money purchases in the hands of players of any age? Well, we can discuss the morality of that another day. In the meantime, I'll be killing my time with mindless word puzzles.
