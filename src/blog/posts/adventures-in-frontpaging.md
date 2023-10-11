@@ -7,13 +7,13 @@ date: 2023-10-10
 
 ## It all starts with one post.
 
-A couple weeks ago, I wrote [the first post](/blog/posts/wordscapes-the-casino-in-your-pocket/) on my little blog site, simply because I'd diligently done some "research" work and thought it interesting to share with the aether. In order to do this as quickly and cheaply as possible, I spun up an [Eleventy](https://www.11ty.dev) site locally with a simple custom theme and began writing. It was a nifty little write-up, if I do say so myself. My wife liked it. So, out into the world it went, on a free static host package at [Netlify](https://www.netlify.com). I tooted about it on [Mastodon](https://vmst.io/@baggachipz/111116465453033500), which got no traction because I have exactly zero followers. I also posted it on [Lemmy](https://sh.itjust.works/c/technology@lemmy.world), and it was promptly removed by an admin. Finally, on a lark, I submitted it to [Hacker News](https://news.ycombinator.com/item?id=37642538). It got no upvotes all day and I went to bed without thinking of it. 
+A couple weeks ago, I wrote [the first post](/blog/posts/wordscapes-the-casino-in-your-pocket/) on my little blog site, simply because I'd diligently done some "research" work and thought it interesting to share with the aether. In order to do this as quickly and cheaply as possible, I spun up an [Eleventy](https://www.11ty.dev) site locally with a simple custom theme and began writing. It was a nifty little write-up, if I do say so myself. My wife liked it. So, out into the world it went, on a free static host package with [Netlify](https://www.netlify.com). I tooted about it on [Mastodon](https://vmst.io/@baggachipz/111116465453033500), which got no traction because I have exactly zero followers. I also posted it on [Lemmy](https://sh.itjust.works/c/technology@lemmy.world), and it was promptly removed by an admin. Finally, on a lark, I submitted it to [Hacker News](https://news.ycombinator.com/item?id=37642538). It got no upvotes all day and I went to bed without thinking of it. 
 
 The next morning, it reached as high as #10 on the front page. I was shocked!
 
 ## Netlify, how could you?
 
-Netlify has been kind of the "geek standard" for free static hosting and CDN for years; But, like any company who's venture-backed and profit driven, they tend to revise their [terms](https://www.netlify.com/legal/terms-of-use/) and chip away at the "free tier" which is designed to suck one into their ecosystem. I don't blame them for that, though it's a small tragedy every time I see it. In my case, I've hosted several small sites over the years on Netlify's free tier and enjoyed every minute of it.
+Netlify has been kind of the "geek standard" for free static hosting and CDN for years; However, like any company who's venture-backed and profit-driven, they tend to revise their [terms](https://www.netlify.com/legal/terms-of-use/) and chip away at the "free tier" which is designed to suck one into their ecosystem. I don't blame them for that, though it's a small tragedy every time I see it. In my case, I've hosted several small sites over the years on Netlify's free tier and enjoyed every minute of it.
 
 But I've never hosted a site which experienced high traffic. My first inkling of trouble was the dreaded "You've got [sic] more room to grow!" email from Netlify:
 
@@ -32,8 +32,8 @@ It didn't take much to publish the static site on Cloudflare and make the DNS sw
 
 ## Lessons learned
 
-First, optimize your assets. Those 3MB images are now less than 1MB each. I should have done that in the first place but was just lazy. Next, know your hosting plan. Free hosting is great, but those bandwidth costs over the free threshold are absurd. I guess that's how they get you. Finally, remember that you have options, and the current state of things will change. I'm sure Cloudflare's free option won't last forever, then it'll be time to move on to the next prospecting provider who's backed by venture capital and trying to lure in customers.
+First, optimize your assets. Those 3MB images are now less than 1MB each. I should have done that in the first place, but was just lazy. Next, know your hosting plan. Free hosting is great, but those bandwidth costs over the free threshold are absurd. I guess that's how they get you: Slap you in the face with a high cost, and then say "If you get on the Pro plan, this wouldn't happen. Also, we'd get that sweet MRR (Monthly Recurring Revenue) which we ultimately measure as a successful business to our overlords. It'd be a real... shame... if this were to happen again." Finally, remember that you have options, and the current state of things will change. I'm sure Cloudflare's free option won't last forever in its current form, then it'll be time to move on to the next prospecting provider who's backed by ~~vulture~~ venture capital and trying to lure in customers.
 
- > "Fool me once, shame on me. Fool me twice... uh, you can't fool me again."
+ > "Fool me once, shame on me. Fool, fool me twice... uh, you can't fool me again."
  > 
  > *Sage American Philosopher*
