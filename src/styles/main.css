@@ -45,4 +45,17 @@
   figure img {
     @apply shadow-md;
   }
+  blockquote {
+    @apply font-semibold;
+    @apply text-gray-900;
+    @apply dark:text-white;
+    @apply border-l-4;
+    @apply border-gray-300;
+    @apply py-1.5;
+    @apply px-2;
+    @apply m-1.5;
+    @apply bg-gray-50;
+    @apply dark:border-gray-500;
+    @apply dark:bg-gray-800;
+  }
 }
