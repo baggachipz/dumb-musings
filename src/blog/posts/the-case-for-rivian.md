@@ -22,7 +22,7 @@ This is clearly an electric car company whose time has come, as they fizzle out 
 
 ## Tesla: A great American success story, until it's not
 
-Tesla has had an incredible run. Adjusted for splits, the stock has mooned from what was approximately $1 to a high of around $350 per share. A lot of people have made a lot of money from Tesla, some of which I was fortunate enough to grab. For a while, they were a scrappy upstart trying to survive, producing cars popular among their loyal fans. They were succeeding despite the eyerolls of traditional auto manufacturers. Their [original "secret plan"](https://www.tesla.com/secret-master-plan) (which has changed drastically in recent years) was:
+Tesla has had an incredible run. Adjusted for splits, the stock has mooned from what was approximately $1 to a high of around $400 per share. A lot of people have made a lot of money from Tesla, some of which I was fortunate enough to grab. For a while, they were a scrappy upstart trying to survive, producing cars popular among their loyal fans. They were succeeding despite the eyerolls of traditional auto manufacturers. Their [original "secret plan"](https://www.tesla.com/secret-master-plan) (which has changed drastically in recent years) was:
 
 1. Build sports car (Roadster)
 2. Use that money to build an affordable car (Model S, X)
@@ -89,7 +89,7 @@ Furthermore, the top 10 investors own almost 50% of the shares. Of particular no
 
 ## What success means
 
-So, let's assume they're able to make it through the production ramp. What does that mean for their stock? Tesla experienced, at its highest, about a 2000% increase once they had proven they could produce and sell at scale. A 1000% increase for Rivian puts the share price at $110. a 500% increase puts it at $60. Conservatively, one stands to do very well if they invest now and wait a couple years, assuming Rivian can ramp production. If they can't, the stock goes to 0. Therefore, I see way more upside than downside. It's definitely a gamble, but an educated one. History does not repeat, but it certainly rhymes. EVs are absolutely the future, and there is plenty of room for more than one successful brand. Rivian isn't dependent on constant carrots-on-sticks to keep their share price up. The proof will be in the production, and I'd love to see Rivian succeed, both personally and financially. 
+So, let's assume they're able to make it through the production ramp. What does that mean for their stock? Tesla experienced, at its highest, about a 2500% increase from their plan announcement until they had proven they could produce and sell at scale. A 1000% increase for Rivian puts the share price at $110. a 500% increase puts it at $60. Conservatively, one stands to do very well if they invest now and wait a couple years, assuming Rivian can ramp production. If they can't, the stock goes to 0. Therefore, I see way more upside than downside. It's definitely a gamble, but an educated one. History does not repeat, but it certainly rhymes. EVs are absolutely the future, and there is plenty of room for more than one successful brand. Rivian isn't dependent on constant carrots-on-sticks to keep their share price up. The proof will be in the production, and I'd love to see Rivian succeed, both personally and financially. 
 
 ## Disclaimers
 I'm not a financial advisor, or accountant, or anything with letters after my name. I'm only a financial advisor to myself. I believe in Rivian's future for the reasons outlined above, and invested some of my TSLA gains in RIVN. 
