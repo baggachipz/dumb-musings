@@ -57,7 +57,7 @@ In the time between the Model 3 announcement and when it was first delivered to 
 
 But, it most definitely wasn't a sure thing for Tesla. In fact, they [teetered on the edge of bankruptcy](https://www.cnbc.com/2020/11/03/musk-tesla-was-about-a-month-from-bankruptcy-during-model-3-ramp.html) as they ramped production. Scaling production is *hard*. Tesla had to seek loans and other lifelines along the way; but in the end, they did it and the company and its shareholders were richly rewarded.
 
-Before we take a look at Rivian, I want you to consider that Rivian's share price during and briefly after its IPO was occurring right as Tesla's price was going insane. The IPO was successfully timed to capitalize on the hype. As the shine wore off, the share price fell back to earth where it belonged. So, for the purposes of this exercise, Ignore the left mountain on the chart. With that, let's take a look:
+Before we take a look at Rivian, I want you to consider that Rivian's share price at and after its IPO was sky-high due to the Tesla success inertia. The IPO was successfully timed to capitalize on the hype. As the shine wore off, the share price fell back to earth where it belonged. So, for the purposes of this exercise, Ignore the left mountain on the chart. With that, let's take a look:
 
 <figure class="chart">
   <img src="/img/RIVN_chart.png" alt="Rivian price chart with milestones" />
