@@ -30,7 +30,6 @@
   figure {
     @apply max-w-sm;
     @apply mx-auto;
-    @apply max-w-sm;
     @apply p-3;
     @apply inline-block;
   }
@@ -58,4 +57,20 @@
     @apply dark:border-gray-500;
     @apply dark:bg-gray-800;
   }
+  table {
+    @apply table-fixed;
+    @apply border-2;
+    @apply border-gray-500;
+    @apply shadow-lg;
+    @apply m-3;
+  }
+  table td, table th {
+    @apply px-5;
+    @apply py-2;
+  }
+  ol {
+    @apply list-decimal;
+    @apply ml-10
+  }
+  
 }
