@@ -53,7 +53,7 @@ Let's take a look at Tesla's story and timeline:
   <figcaption>Tesla's stock price as milestones were reached. Logarithmic chart to illustrate points.</figcaption>
 </figure>
 
-As you can see, in the time between the Model 3 was announcement and when it was first delivered to customers, the share price was relatively flat. Nobody was sure if Tesla could accomplish the feat of production scaling. But, once deliveries started happening: up, up, and away! Tesla had proven it could deliver mass produced, desirable vehicles. 
+In the time between the Model 3 announcement and when it was first delivered to customers, the share price was relatively flat. Nobody was sure if Tesla could accomplish the feat of production scaling. But, once deliveries started happening... up, up, and away! Tesla had proven it could deliver mass produced, desirable vehicles. 
 
 But, it most definitely wasn't a sure thing for Tesla. In fact, they [teetered on the edge of bankruptcy](https://www.cnbc.com/2020/11/03/musk-tesla-was-about-a-month-from-bankruptcy-during-model-3-ramp.html) as they ramped production. Scaling production is *hard*. Tesla had to seek loans and other lifelines along the way; but in the end, they did it and the company and its shareholders were richly rewarded.
 
@@ -63,8 +63,7 @@ Before we take a look at Rivian, I want you to consider that Rivian's share pric
   <img src="/img/RIVN_chart.png" alt="Rivian price chart with milestones" />
   <figcaption>Rivian's stock price as milestones were reached.</figcaption>
 </figure>
-
-As you can see, the stock is flatly trending downward (though volatile) while they're still losing money. Their flagship (expensive) vehicle has been available for less than 5 years, and they announced their Model 3-type vehicle in March 2024. As of this writing, they have just kicked off their production ramp for their mass-market vehicle. Musk coined it "Production Hell" and I'm sure he's right. But if Rivian can make it out the other side, I see no reason they can't recover to their IPO price, and beyond.
+The stock is flatly trending downward (though volatile) while they're still losing money. Their flagship (expensive) vehicle has been available for less than 5 years, and they announced their Model 3-type vehicle in March 2024. As of this writing, they have just kicked off their production ramp for their mass-market vehicle. Musk coined it "Production Hell" and I'm sure he's right. But if Rivian can make it out the other side, I see no reason they can't recover to their IPO price, and beyond.
 
 ## The race against time
 
