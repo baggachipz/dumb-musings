@@ -70,7 +70,11 @@
   }
   ol {
     @apply list-decimal;
-    @apply ml-10
+    @apply ml-10;
+  }
+  ul {
+    @apply list-disc;
+    @apply ml-10;
   }
   
 }
