@@ -8,7 +8,7 @@ date: 2024-11-25
 *tl;dr: AI is mostly hype and won't take everybody's job or end humanity.*
 
 ## AI here, AI there, AI everywhere
-"AI" is a term you cannot escape if you follow any kind of tech news, or any news really. It's an constant drumbeat of breathless prognostications; of a future where all jobs are automated, people are obsolete, and perhaps the end of humanity as we know it while superintelligence enslaves or eradicates us. This is presented as a foregone conclusion. Companies and charlatans are getting rich by hopping on the bandwagon and embracing an "AI-first" business strategy.
+"AI" is a term you cannot escape if you follow any kind of tech news, or any news really. It's a constant drumbeat of breathless prognostications; of a future where all jobs are automated, people are obsolete, and perhaps the end of humanity as we know it while superintelligence enslaves or eradicates us. This is presented as a foregone conclusion. Companies and charlatans are getting rich by hopping on the bandwagon and embracing an "AI-first" business strategy.
 
 The problem is, it's mostly bullshit. I'm constantly asked by people what it all means and what they can do. The truth is, this "AI" is an excellent means of prediction via probability. In the tech community, lots of people call it "fancy autocomplete". That is, given a set of input, the program can compare that input against thousands (or millions) of similar examples and spit out the most likely outcome. *That's it.*
 
