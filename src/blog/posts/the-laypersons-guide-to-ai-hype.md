@@ -46,7 +46,8 @@ This is far from the first time this cycle has played out. Previous examples inc
  * [Expert Systems](https://en.wikipedia.org/wiki/Expert_system) in the 80's
  * The World Wide Web and e-Commerce in the late 90's/early 2000s
  * Bitcoin and Cryptocurrency in the 2010's
- * Electric cars (ongoing, but a less drastic hype/crash)
+ * NFT's
+ * Self-driving cars (in progress)
 
 ... nor will it be the last time this happens.
 
