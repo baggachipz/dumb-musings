@@ -52,6 +52,6 @@ This is far from the first time this cycle has played out. Previous examples inc
 ... nor will it be the last time this happens.
 
 ## Don't believe the hype
-"AI" in its current form will never reach the colloquial definition of "a super-intelligent mind which self-propagates and understands everything"; or in the industry parlance, Artifcial General Intelligence (AGI). It's not going to take your job, unless you write bullshit clickbait articles, or create derivative images, or videos making people say fake things. In which case, good riddance. Instead, it will become a useful assistant where its abilities are applicable. "Alexa, make a dinner reservation at Ruth's Chris at 7pm tomorrow" may finally be possible.
+"AI" in its current form will never reach the colloquial definition of "a super-intelligent mind which self-propagates and understands everything"; or in the industry parlance, Artifcial General Intelligence (AGI). It's not going to take your job, unless you write bullshit clickbait articles, or create derivative images, or videos making people say fake things. In which case, good riddance. Instead, it will become a useful assistant where its abilities are applicable. "Alexa, make a dinner reservation for 6 at Ruth's Chris at 7pm tomorrow" may finally be possible.
 
 Until then, please stop assuming that the brilliant robot overlords are going to do anything but annoy us via the news wire.
