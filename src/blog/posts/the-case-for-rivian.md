@@ -90,5 +90,14 @@ Furthermore, the top 10 investors own almost 50% of the shares. Of particular no
 
 So, let's assume they're able to make it through the production ramp. What does that mean for their stock? Tesla experienced, at its highest, about a 2500% increase from their plan announcement until they had proven they could produce and sell at scale. A 1000% increase for Rivian puts the share price at $110. a 500% increase puts it at $60. Conservatively, one stands to do very well if they invest now and wait a couple years, assuming Rivian can ramp production. If they can't, the stock goes to 0. Therefore, I see way more upside than downside. It's definitely a gamble, but an educated one. History does not repeat, but it certainly rhymes. EVs are absolutely the future, and there is plenty of room for more than one successful brand. Rivian isn't dependent on constant carrots-on-sticks to keep their share price up. The proof will be in the production, and I'd love to see Rivian succeed, both personally and financially. 
 
+## _Update_
+
+Since I wrote this, [Rivian has entered into a joint venture with Volkswagen](https://eletric-vehicles.com/vw-group/volkswagen-plans-to-expand-collaboration-with-rivian-ceo-says/). This solidifies the relationship and shows that VW is going all-in on Rivian's technology. They've even increased the funding terms to Rivian by almost another billion dollars. 
+
+Furthermore, prior to the beginning of a hostile administration, Rivian was [granted a federal loan](https://www.energy.gov/lpo/articles/doe-announces-657-billion-loan-rivian-support-construction-ev-manufacturing-facility) of 6 and a half billion dollars to ensure they can build their high-output factory in Georgia. This facility is essential in their efforts to scale up production to the mass market. 
+
+Both of these developments further bolster the arguments I made above. Rivian has the financing and the strategic deals. At this point, they can focus solely on execution with plenty of runway.
+
 ## Disclaimers
 I'm not a financial advisor, or accountant, or anything with letters after my name. I'm only a financial advisor to myself. I believe in Rivian's future for the reasons outlined above, and invested some of my TSLA gains in RIVN. 
+
