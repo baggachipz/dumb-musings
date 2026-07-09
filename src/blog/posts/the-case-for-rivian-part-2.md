@@ -7,11 +7,11 @@ date: 2026-07-09
 
 *tl;dr: A year and a half later, the plan is coming to fruition.*
 
-In my [first post about Rivian](/blog/posts/the-case-for-rivian/), I explained why I thought Rivian was a great investment opportunity who is following the Tesla playbook in order to successfully become a mass-market auto maker with legions of diehard fans. Tesla, while still producing lots of cars, is a [acompany in decline because they completely lost the plot](https://electrek.co/2026/01/29/tesla-committing-automotive-suicide/). They still sell a lot of cars, but have discontinued their two high-end models, the Model S and Model X. The Cybertruck is, unsurprisingly, a [collossal flop](https://blog.consumerguide.com/the-cybertruck-is-a-flop/). They still sell a lot of Model 3's and Y's, but they have lost interest in cars and seem to be [abandoning that in favor of robotics and "AI"](https://www.cnbc.com/2026/01/29/elon-musk-tesla-pivot-to-ai-robots-wall-street-reaction.html). 
+In my [first post about Rivian](/blog/posts/the-case-for-rivian/), I explained why I thought Rivian was a great investment opportunity. They're following the original Tesla playbook in order to successfully become a mass-market auto maker with legions of diehard fans. Tesla, while still producing lots of cars, is a [acompany in decline because they completely lost the plot](https://electrek.co/2026/01/29/tesla-committing-automotive-suicide/). They still sell a lot of cars, but have discontinued their two high-end models, the Model S and Model X. The Cybertruck is, unsurprisingly, a [collossal flop](https://blog.consumerguide.com/the-cybertruck-is-a-flop/). They still sell a lot of Model 3's and Y's, but they have lost interest in cars and seem to be [abandoning that in favor of robotics and "AI"](https://www.cnbc.com/2026/01/29/elon-musk-tesla-pivot-to-ai-robots-wall-street-reaction.html). 
 
 # Unprecedented challenges
 
-So, what's happening with Rivian these days? Well, Rivian has faced significant headwinds: A presidential administration and congress intent on crippling the EV industry, an increasingly successful oil/gas lobby, and major chip shortages due to the speculative "AI" boom. By all accounts, a failure by Rivian would be unfortunate but understandable. 
+So, what's happening with Rivian these days? Well, they have faced significant headwinds: A presidential administration and congress intent on crippling the EV industry, an increasingly successful oil/gas lobby, and major chip shortages due to the speculative "AI" boom. By all accounts, a failure by Rivian would be unfortunate but understandable. 
 
 Instead, they're succeeding.
 
@@ -37,7 +37,7 @@ There's an undeniable upward trend. The stock has crossed $20 per share twice. T
   <figcaption>RIVN % gain vs S&P 500 % gain</figcaption>
 </figure>
 
-## So much more upside
+## Room for growth
 
 So, we're already on the right track. Even so, I think there is still so much more upside to RIVN. The production ramp is still starting, meaning the market hasn't truly realized the earnings potential when R2's really start selling in high numbers. As we've seen, they will. If you missed the boat at $10 per share, now is the second-best time to jump on the bandwagon. I plan on riding my R2 to a serious gain, thanks to Rivian's excellent execution and sage planning. See you on the rocket ship!
 
