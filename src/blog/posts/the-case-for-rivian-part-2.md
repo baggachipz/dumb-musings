@@ -7,7 +7,7 @@ date: 2026-07-09
 
 *tl;dr: A year and a half later, the plan is coming to fruition.*
 
-In my [first post about Rivian](/blog/posts/the-case-for-rivian/), I explained why I thought RIVN is a great investment opportunity. They're following the original Tesla playbook, in order to successfully become a mass-market auto maker with legions of diehard fans. Tesla, while still producing lots of cars, is a [acompany in decline because they completely lost the plot](https://electrek.co/2026/01/29/tesla-committing-automotive-suicide/). They have discontinued their two high-end models, the Model S and Model X. The Cybertruck is, unsurprisingly, a [collossal flop](https://blog.consumerguide.com/the-cybertruck-is-a-flop/). They still sell a lot of Model 3's and Y's, but have clearly lost interest in cars and seem to be [abandoning that in favor of robotics and "AI"](https://www.cnbc.com/2026/01/29/elon-musk-tesla-pivot-to-ai-robots-wall-street-reaction.html). 
+In my [first post about Rivian](/blog/posts/the-case-for-rivian/), I explained why I thought RIVN is a great investment opportunity. They're following the original Tesla playbook, in order to successfully become a mass-market auto maker with legions of diehard fans. Tesla, while still producing lots of cars, is a [company in decline because they completely lost the plot](https://electrek.co/2026/01/29/tesla-committing-automotive-suicide/). They have discontinued their two high-end models, the Model S and Model X. The Cybertruck is, unsurprisingly, a [collossal flop](https://blog.consumerguide.com/the-cybertruck-is-a-flop/). They still sell a lot of Model 3's and Y's, but have clearly lost interest in cars and seem to be [abandoning that in favor of robotics and "AI"](https://www.cnbc.com/2026/01/29/elon-musk-tesla-pivot-to-ai-robots-wall-street-reaction.html). 
 
 # Unprecedented challenges
 
@@ -42,4 +42,5 @@ There's an undeniable upward trend. The stock has crossed $20 per share twice. T
 So, we're already on the right track. Still, I think there is so much more upside to RIVN. The production ramp is barely underway, meaning the market hasn't truly realized the earnings potential when R2's really start selling in high numbers. As we've seen, they will. If you missed the boat at $10 per share, now is the second-best time to jump on the bandwagon. I plan on riding my R2 to a serious gain, thanks to Rivian's excellent execution and sage planning. See you on the rocket ship!
 
 ## Disclaimers
+
 Like I said before, I'm not a financial advisor, or accountant, or anything with letters after my name. I'm only a financial advisor to myself. I believe in Rivian's future for the reasons outlined here and before, and have bought even more RIVN since the last post. 
