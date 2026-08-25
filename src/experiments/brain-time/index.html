@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brain Time — Temporal Recalibration</title>
+<style>
+:root { color-scheme: dark; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+* { box-sizing: border-box; }
+html, body { overscroll-behavior:none; }
+body { margin:0; min-height:100vh; background:#111; color:#eee; display:flex; justify-content:center; }
+
+/* Embedded, the host page sizes the frame to this document, so this document
+   must never scroll itself: a frame one pixel short of its contents otherwise
+   gets its own scrollbar and its own rubber-band overscroll, which reads as a
+   second page inside the first. Height is left to the content — anything tied
+   to the viewport (100vh) is the frame's height, which is what we are
+   measuring, and that circularity is what keeps a stray pixel around. */
+html.embedded, html.embedded body { height:auto; min-height:0; overflow:hidden; }
+main { width:min(900px, 94vw); padding:40px 0 70px; }
+section { display:none; }
+section.active { display:block; }
+h1 { font-size:clamp(2rem,5vw,4rem); line-height:1; margin:.2em 0 .4em; }
+h2 { font-size:2rem; }
+p, li { font-size:1.08rem; line-height:1.6; color:#ccc; }
+.card { background:#1b1b1b; border:1px solid #333; border-radius:16px; padding:28px; margin:20px 0; }
+button { font:inherit; cursor:pointer; border:0; border-radius:12px; padding:14px 24px; background:#eee; color:#111; font-weight:700; }
+button.secondary { background:#333; color:#eee; }
+button:disabled { opacity:.4; cursor:not-allowed; }
+.center { text-align:center; }
+.spot { width:180px; height:180px; margin:30px auto; display:block; border-radius:50%; background:#111; }
+.spot.flash { background:#fff; box-shadow:0 0 80px 30px #fff; }
+.status { min-height:2em; text-align:center; color:#aaa; font-variant-numeric:tabular-nums; }
+.cue { color:#fff; font-weight:700; letter-spacing:.08em; }
+.progress { height:8px; background:#292929; border-radius:8px; overflow:hidden; margin:20px 0; }
+.progress > div { height:100%; width:0%; background:#eee; transition:width .1s linear; }
+.choice { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:24px; visibility:hidden; }
+.choice.asking { visibility:visible; }
+.choice button { min-height:70px; }
+.statgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:12px; }
+.stat { background:#242424; padding:18px; border-radius:12px; font-size:.95rem; color:#aaa; }
+.stat b { display:block; font-size:1.7rem; margin-top:4px; color:#eee; }
+canvas { width:100%; height:340px; background:#171717; border-radius:12px; }
+small { color:#888; display:block; margin-top:10px; }
+kbd { background:#333; border-radius:6px; padding:2px 8px; font-family:inherit; font-weight:700; }
+#pause {
+  position:fixed; inset:0; z-index:10; display:none; cursor:pointer;
+  background:rgba(10,10,10,.92); color:#eee;
+  align-items:center; justify-content:center; text-align:center; padding:24px;
+}
+#pause.shown { display:flex; }
+#pause b { display:block; font-size:1.5rem; margin-bottom:8px; }
+</style>
+<script>
+// Set before first paint: applying this from the main script at the bottom
+// would let one frame render with a scrollbar.
+if (window.parent !== window) document.documentElement.classList.add("embedded");
+</script>
+</head>
+<body>
+<div id="pause"><div><b>Paused</b>Click here to put the keyboard back on the experiment.</div></div>
+<main>
+<section id="intro" class="active">
+  <p>This experiment demonstrates a real phenomenon in time perception: your brain adapts to a delay between an action and its sensory consequence, and then misjudges what happened first.</p>
+  <div class="card">
+    <h2>What you'll do</h2>
+    <ol>
+      <li>Press <kbd>SPACE</kbd> a few times to get into a rhythm.</li>
+      <li><b>Baseline measurement.</b> On each trial, press as fast as you can when told, then judge whether the flash or your press came first.</li>
+      <li><b>Adaptation.</b> Keep pressing while every flash is secretly delayed by 200 ms.</li>
+      <li><b>Measurement again</b>, with the delay maintained.</li>
+      <li>The delay is removed, and you see what that feels like.</li>
+    </ol>
+    <p>Takes about 6 minutes. <b>Use a physical keyboard</b> on a desktop or laptop, and avoid other activity while it runs.</p>
+    <button id="start">Start experiment</button>
+  </div>
+</section>
+
+<section id="familiar">
+  <h2>First, get into a rhythm.</h2>
+  <p>Press <kbd>SPACE</kbd> repeatedly. Every press produces a flash immediately.</p>
+  <p>Don't try to synchronize anything. Just press at a comfortable, steady pace.</p>
+  <div class="card center">
+    <div id="familiarSpot" class="spot"></div>
+    <div id="familiarStatus" class="status">Press SPACE to begin.</div>
+    <div class="progress"><div id="familiarBar"></div></div>
+  </div>
+</section>
+
+<section id="toj">
+  <h2 id="tojTitle">Now we'll measure your sense of timing.</h2>
+  <p id="tojIntro"></p>
+  <div class="card center">
+    <div id="tojSpot" class="spot"></div>
+    <div id="tojStatus" class="status">Get ready…</div>
+    <div class="progress"><div id="tojBar"></div></div>
+    <div class="choice" id="tojChoice">
+      <button data-answer="-1">FLASH FIRST <small>(F)</small></button>
+      <button data-answer="1">PRESS FIRST <small>(P)</small></button>
+    </div>
+  </div>
+  <small>Press SPACE the instant you see the cue. The flash is scheduled from a running estimate of your reaction time, so it can genuinely occur <i>before</i> your press. Whatever actually happened is measured and used in the analysis — guessing is fine, just answer with your gut.</small>
+</section>
+
+<section id="adapt">
+  <h2>Now keep pressing.</h2>
+  <p>Something about the timing has changed. Don't try to work out what it is. Just keep pressing <kbd>SPACE</kbd> at a steady pace.</p>
+  <div class="card center">
+    <div id="adaptSpot" class="spot"></div>
+    <div id="adaptStatus" class="status"></div>
+    <div class="progress"><div id="adaptBar"></div></div>
+  </div>
+</section>
+
+<section id="illusion">
+  <h2>Last block. Keep pressing.</h2>
+  <p id="illusionText">Something has changed again. Pay attention to the flash.</p>
+  <div class="card center">
+    <div id="illusionSpot" class="spot"></div>
+    <div id="illusionStatus" class="status"></div>
+    <div class="progress"><div id="illusionBar"></div></div>
+    <div class="choice" id="illusionChoice">
+      <button data-answer="1">YES, BEFORE MY PRESS</button>
+      <button data-answer="0">NO, AFTER AS USUAL</button>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <h1 id="resultTitle">Your results.</h1>
+  <p id="verdict"></p>
+  <div class="statgrid">
+    <div class="stat">Baseline simultaneity point<b id="pssBase">—</b></div>
+    <div class="stat">After 200 ms adaptation<b id="pssAdapt">—</b></div>
+    <div class="stat">Recalibration shift<b id="shiftStat">—</b></div>
+  </div>
+  <div class="statgrid">
+    <div class="stat">Judgments used<b id="trialStat">—</b></div>
+    <div class="stat">Trials dropped<b id="dropStat">—</b></div>
+    <div class="stat">Display refresh<b id="hzStat">—</b></div>
+  </div>
+  <div class="card">
+    <h2>Your temporal-order curves</h2>
+    <canvas id="chart"></canvas>
+    <small>Each point is the proportion of trials in a 60 ms bin where you said the flash came first; dot size shows how many trials landed in that bin. The lines are fitted psychometric curves, and each vertical marker is that block's point of subjective simultaneity — the flash timing you were equally likely to call either way.</small>
+  </div>
+  <div class="card">
+    <h2>What's going on?</h2>
+    <p>Your brain continually predicts the sensory consequences of your actions. When a delay is inserted between your keypress and the flash, it recalibrates: it starts treating the delayed flash as the normal consequence of pressing.</p>
+    <p>The measurement is the <b>point of subjective simultaneity</b> (PSS): the physical flash timing at which you call it either way half the time. Recalibration pushes that point <b>later</b> — a flash has to arrive further after your press to feel simultaneous with it. Once that has happened, removing the delay can make the flash feel like it preceded the press that caused it.</p>
+    <p>Perception is not a timestamp recorder. Your brain combines sensory signals with predictions about when those signals ought to arrive.</p>
+    <button class="secondary" onclick="location.reload()">Run it again</button>
+    <button class="secondary" id="download">Download raw data</button>
+  </div>
+</section>
+</main>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const SECTIONS = ["intro","familiar","toj","adapt","illusion","results"];
+  const show = id => {
+    SECTIONS.forEach(s => $(s).classList.toggle("active", s === id));
+    postHeight();
+  };
+
+  // When embedded, tell the host page how tall to make the frame. Only a
+  // height goes out, so the wildcard target carries nothing worth protecting;
+  // the host is expected to check event.source before trusting it.
+  const embedded = window.parent !== window;
+
+  // The document is clipped when embedded, so scrollHeight is pinned to the
+  // frame and cannot report growth. The body lays out to its content, and its
+  // fractional height is what actually decides whether a scrollbar appears, so
+  // it is measured directly and rounded up.
+  function postHeight() {
+    if (!embedded) return;
+    const height = Math.ceil(document.body.getBoundingClientRect().height);
+    window.parent.postMessage({ type: "brain-time:height", height }, "*");
+  }
+
+  if (embedded) {
+    new ResizeObserver(postHeight).observe(document.body);
+    window.addEventListener("load", postHeight);
+  }
+
+  // --- Parameters ------------------------------------------------------------
+
+  const ADAPT_DELAY_MS = 200;        // delay inserted between press and flash
+  const FAMILIAR_PRESSES = 12;
+  const ADAPT_PRESSES = 40;
+  const ILLUSION_PRESSES = 10;
+  const FLASH_MS = 45;
+
+  // Each measurement block interleaves probe trials (judged) with exposure
+  // trials (not judged) that hold the block's adaptation state in place.
+  const PROBE_SOAS = [-150, -100, -50, 0, 50, 100, 150];
+  const PROBE_REPS = 4;
+  const EXPOSURE_TRIALS = 14;
+
+  const CUE_WAIT_MS = 700, CUE_JITTER_MS = 600, TRIAL_GAP_MS = 350;
+  const MIN_RT_MS = 120, MAX_RT_MS = 1200;  // outside this the trial is dropped
+  const RT_WINDOW = 10, START_RT_MS = 350, RT_FLOOR_MS = 180, RT_CEIL_MS = 700;
+  const FRAME_GUARD_MS = 6;                 // hand off from setTimeout to rAF
+
+  const ANSWER = { FLASH_FIRST: -1, PRESS_FIRST: 1 };
+  const TRIAL = { PROBE: "probe", EXPOSURE: "exposure" };
+  const BASE_COLOR = "#5aa9ff", ADAPT_COLOR = "#ffa94d";
+
+  const data = { refreshHz: null, baseline: [], adapted: [], illusion: null, dropped: 0, interrupted: 0 };
+  let running = false;   // true once the experiment starts, for the SPACE guard
+
+  // --- Primitives ------------------------------------------------------------
+
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  // Timing is only trustworthy when the stimulus is on screen and the keyboard
+  // reaches us. Three things break that, and all three must be caught:
+  //
+  //   tab hidden      -> requestAnimationFrame is starved indefinitely
+  //   window blurred  -> keypresses go somewhere else entirely
+  //   scrolled off    -> when embedded in an iframe, rAF is throttled while
+  //                      document.visibilityState still reports "visible"
+  //
+  // Any trial spanning one of these is dropped rather than trusted. Every rAF
+  // wait is also raced against a timer so a starved frame cannot hang the run.
+  let disruptions = 0;
+  const bump = () => disruptions++;
+
+  document.addEventListener("visibilitychange", () => { if (document.hidden) bump(); });
+  window.addEventListener("blur", bump);
+
+  // visibilityState inside an iframe tracks the tab, not the iframe's position
+  // in the parent page, so intersection is the only way to see this one. The
+  // implicit root is the top-level viewport and clips through frame bounds.
+  //
+  // Half the stimulus is the bar: it stays plainly perceivable, while a frame
+  // parked mostly off-screen — the case that silently degrades timing — trips
+  // it. Both the transition and the standing state are checked, or a frame
+  // left off-screen for a whole block would never register as a change.
+  const VISIBLE_RATIO = 0.5;
+  let spotOnScreen = false;
+
+  new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const visible = e.intersectionRatio >= VISIBLE_RATIO;
+      if (spotOnScreen && !visible) bump();
+      spotOnScreen = visible;
+    });
+  }, { threshold: [0, VISIBLE_RATIO] }).observe($("tojSpot"));
+
+  const focused = () => !document.hidden && document.hasFocus();
+  const attending = () => focused() && spotOnScreen;
+
+  // Nudge the participant back when attention is what's missing, not time.
+  function updatePause() {
+    $("pause").classList.toggle("shown", running && !focused());
+  }
+  window.addEventListener("blur", updatePause);
+  window.addEventListener("focus", updatePause);
+  document.addEventListener("visibilitychange", updatePause);
+  $("pause").addEventListener("click", () => window.focus());
+
+  const PAINT_TIMEOUT_MS = 250;
+
+  function raceFrame(timeoutMs) {
+    return Promise.race([
+      new Promise(r => requestAnimationFrame(t => r(t))),
+      new Promise(r => setTimeout(() => r(performance.now()), timeoutMs))
+    ]);
+  }
+
+  // Resolves with the timestamp of the frame that paints the flash, which is
+  // what the participant actually saw — not the moment we touched the class.
+  function flash(el) {
+    el.classList.add("flash");
+    setTimeout(() => el.classList.remove("flash"), FLASH_MS);
+    return raceFrame(PAINT_TIMEOUT_MS);
+  }
+
+  // Keydown timeStamp shares performance.now()'s time origin, so it beats
+  // timing the handler itself. Resolves null if nothing arrives in time.
+  function awaitSpace(timeoutMs) {
+    return new Promise(resolve => {
+      const done = value => {
+        window.removeEventListener("keydown", onKey);
+        clearTimeout(timer);
+        resolve(value);
+      };
+      const onKey = e => {
+        if (e.code !== "Space" || e.repeat) return;
+        e.preventDefault();
+        done(e.timeStamp || performance.now());
+      };
+      const timer = setTimeout(() => done(null), timeoutMs);
+      window.addEventListener("keydown", onKey);
+    });
+  }
+
+  // One shared handler per button, removed on the same element it was added to.
+  function ask(choiceEl, keyMap) {
+    const buttons = [...choiceEl.querySelectorAll("button")];
+    choiceEl.classList.add("asking");
+    return new Promise(resolve => {
+      const done = value => {
+        window.removeEventListener("keydown", onKey);
+        buttons.forEach(b => { b.removeEventListener("click", onClick); b.blur(); });
+        choiceEl.classList.remove("asking");
+        resolve(value);
+      };
+      const onKey = e => {
+        if (!(e.code in keyMap)) return;
+        e.preventDefault();
+        done(keyMap[e.code]);
+      };
+      const onClick = e => done(Number(e.currentTarget.dataset.answer));
+      window.addEventListener("keydown", onKey);
+      buttons.forEach(b => b.addEventListener("click", onClick));
+    });
+  }
+
+  function estimateRefresh() {
+    const FRAMES = 80, WARMUP = 5, MIN_MS = 2, MAX_MS = 40, GIVE_UP_MS = 3000;
+    const measured = new Promise(resolve => {
+      const gaps = [];
+      let last = performance.now(), n = 0;
+      requestAnimationFrame(function step(t) {
+        if (n++) gaps.push(t - last);
+        last = t;
+        if (n < FRAMES) return requestAnimationFrame(step);
+        const valid = gaps.slice(WARMUP).filter(x => x > MIN_MS && x < MAX_MS);
+        const avg = valid.reduce((a, b) => a + b, 0) / valid.length;
+        resolve(1000 / avg);
+      });
+    });
+    return Promise.race([measured, wait(GIVE_UP_MS).then(() => null)]);
+  }
+
+  // --- Free-pressing phases (familiarisation, adaptation, delay removal) -----
+
+  function runPresses(spot, status, bar, total, delayMs) {
+    return new Promise(resolve => {
+      let count = 0;
+      const onKey = async e => {
+        if (e.code !== "Space" || e.repeat || count >= total) return;
+        e.preventDefault();
+        count++;
+        status.textContent = `${count} / ${total}`;
+        bar.style.width = `${100 * count / total}%`;
+        if (count >= total) window.removeEventListener("keydown", onKey);
+
+        if (delayMs > 0) await wait(delayMs);
+        await flash(spot);
+        if (count >= total) resolve();
+      };
+      window.addEventListener("keydown", onKey);
+    });
+  }
+
+  // --- Temporal-order judgment block -----------------------------------------
+
+  function buildTrials(exposureSoa) {
+    const trials = [];
+    for (let i = 0; i < EXPOSURE_TRIALS; i++) trials.push({ kind: TRIAL.EXPOSURE, soa: exposureSoa });
+    for (let r = 0; r < PROBE_REPS; r++) PROBE_SOAS.forEach(soa => trials.push({ kind: TRIAL.PROBE, soa }));
+
+    for (let i = trials.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [trials[i], trials[j]] = [trials[j], trials[i]];
+    }
+    return trials;
+  }
+
+  function makeRtTracker() {
+    const samples = [];
+    return {
+      predict() {
+        if (!samples.length) return START_RT_MS;
+        const recent = [...samples.slice(-RT_WINDOW)].sort((a, b) => a - b);
+        const median = recent[Math.floor(recent.length / 2)];
+        return Math.max(RT_FLOOR_MS, Math.min(RT_CEIL_MS, median));
+      },
+      add(rt) { samples.push(rt); }
+    };
+  }
+
+  async function runTojBlock(store, exposureSoa) {
+    const spot = $("tojSpot"), status = $("tojStatus"), bar = $("tojBar"), choice = $("tojChoice");
+    const trials = buildTrials(exposureSoa);
+    const rt = makeRtTracker();
+
+    // Put the stimulus on screen once per block. When embedded this scrolls the
+    // host page too, so the block cannot open below the fold and stall.
+    spot.scrollIntoView({ block: "center" });
+    await wait(TRIAL_GAP_MS);
+
+    for (let i = 0; i < trials.length; i++) {
+      const trial = trials[i];
+      bar.style.width = `${100 * i / trials.length}%`;
+      spot.classList.remove("flash");
+      status.textContent = `Trial ${i + 1} of ${trials.length}`;
+      await wait(CUE_WAIT_MS + Math.random() * CUE_JITTER_MS);
+
+      // The cue is the anchor: we predict when the press will land and put the
+      // flash at predictedPress + SOA, so a negative SOA is a genuine
+      // pre-keypress flash rather than a fake one issued after the fact.
+      const cue = performance.now();
+      const wasDisrupted = disruptions;
+      const predicted = rt.predict();
+      const target = cue + predicted + trial.soa;
+      status.innerHTML = `<span class="cue">PRESS SPACE</span>`;
+
+      let painting = null, timer = null, stopped = false;
+      const fire = () => { if (!painting) painting = flash(spot); };
+      const tick = () => {
+        if (stopped || painting) return;
+        const left = target - performance.now();
+        if (left <= 0) return fire();
+        if (left > FRAME_GUARD_MS) timer = setTimeout(tick, left - FRAME_GUARD_MS);
+        else requestAnimationFrame(tick);
+      };
+      tick();
+
+      const press = await awaitSpace(MAX_RT_MS);
+      stopped = true;
+      clearTimeout(timer);
+
+      // A flash still pending is a legitimate post-press event: let it run.
+      if (!painting) {
+        const left = target - performance.now();
+        if (left > 0) await wait(left);
+        fire();
+      }
+      const flashTime = await painting;
+
+      // Anything that ran while the page was hidden, blurred or scrolled out
+      // of view has timestamps the participant never actually experienced.
+      if (disruptions !== wasDisrupted || !attending()) {
+        data.interrupted++;
+        status.textContent = spotOnScreen
+          ? "Lost focus — trial dropped."
+          : "Scroll the experiment back into view — trial dropped.";
+
+        // Wait for them to come back rather than burning the rest of the block.
+        while (!attending()) await wait(TRIAL_GAP_MS);
+        await wait(TRIAL_GAP_MS * 2);
+        continue;
+      }
+
+      const reaction = press === null ? null : press - cue;
+      const valid = reaction !== null && reaction >= MIN_RT_MS && reaction <= MAX_RT_MS;
+      if (!valid) {
+        data.dropped++;
+        status.textContent = press === null ? "Too slow — trial dropped." : "Too quick — trial dropped.";
+        await wait(TRIAL_GAP_MS * 2);
+        continue;
+      }
+      rt.add(reaction);
+
+      const soa = flashTime - press;   // what physically happened, in ms
+      if (trial.kind === TRIAL.EXPOSURE) {
+        await wait(TRIAL_GAP_MS);
+        continue;
+      }
+
+      status.textContent = "Which happened first?";
+      const answer = await ask(choice, { KeyF: ANSWER.FLASH_FIRST, KeyP: ANSWER.PRESS_FIRST });
+      store.push({ intendedSoa: trial.soa, soa, answer, reaction, predicted });
+      await wait(TRIAL_GAP_MS);
+    }
+    bar.style.width = "100%";
+  }
+
+  // --- Analysis --------------------------------------------------------------
+
+  // Logistic fit of P(said "flash first") against the measured SOA. Fitted on
+  // raw trials rather than bins, because RT prediction error spreads the
+  // actual SOAs continuously. x is in 100 ms units to keep it well scaled.
+  const X_SCALE = 100, RIDGE = 0.05, IRLS_ITERS = 12, SINGULAR = 1e-12;
+  const MIN_FIT_TRIALS = 8, MIN_SLOPE = 0.05, PSS_LIMIT_MS = 400;
+
+  // Ridge-penalised logistic regression by iteratively reweighted least
+  // squares. The penalty keeps the fit finite when the responses are perfectly
+  // separated, e.g. an observer who never once got the order wrong.
+  function fitCurve(rows) {
+    if (rows.length < MIN_FIT_TRIALS) return null;
+
+    let b0 = 0, b1 = 0;
+    for (let iter = 0; iter < IRLS_ITERS; iter++) {
+      let h00 = RIDGE, h01 = 0, h11 = RIDGE, g0 = -RIDGE * b0, g1 = -RIDGE * b1;
+      for (const r of rows) {
+        const x = r.soa / X_SCALE;
+        const p = 1 / (1 + Math.exp(-(b0 + b1 * x)));
+        const w = Math.max(p * (1 - p), SINGULAR);
+        const err = (r.answer === ANSWER.FLASH_FIRST ? 1 : 0) - p;
+        g0 += err;      g1 += err * x;
+        h00 += w;       h01 += w * x;      h11 += w * x * x;
+      }
+      const det = h00 * h11 - h01 * h01;
+      if (Math.abs(det) < SINGULAR) break;
+      b0 += ( h11 * g0 - h01 * g1) / det;
+      b1 += (-h01 * g0 + h00 * g1) / det;
+    }
+
+    // "Flash first" must fall off as the flash moves later, or the responses
+    // carry no usable order information.
+    const raw = b1 < -MIN_SLOPE ? (-b0 / b1) * X_SCALE : null;
+    const pss = raw === null || Math.abs(raw) > PSS_LIMIT_MS ? null : raw;
+    return { curve: soa => 1 / (1 + Math.exp(-(b0 + b1 * soa / X_SCALE))), pss };
+  }
+
+  // Percentile bootstrap on the baseline-to-adapted shift, so the result can
+  // say whether the measured shift is bigger than this observer's own noise.
+  const BOOTSTRAPS = 400, CI_ALPHA = 0.025;
+
+  function bootstrapShift(baseRows, adaptRows) {
+    const resample = rows => rows.map(() => rows[Math.floor(Math.random() * rows.length)]);
+    const shifts = [];
+    for (let i = 0; i < BOOTSTRAPS; i++) {
+      const b = fitCurve(resample(baseRows));
+      const a = fitCurve(resample(adaptRows));
+      if (b && a && b.pss !== null && a.pss !== null) shifts.push(a.pss - b.pss);
+    }
+    if (shifts.length < BOOTSTRAPS / 2) return null;
+
+    shifts.sort((x, y) => x - y);
+    return {
+      lo: shifts[Math.floor(shifts.length * CI_ALPHA)],
+      hi: shifts[Math.floor(shifts.length * (1 - CI_ALPHA))]
+    };
+  }
+
+  const BIN_MS = 60;
+
+  function binRows(rows) {
+    const bins = new Map();
+    for (const r of rows) {
+      const center = Math.round(r.soa / BIN_MS) * BIN_MS;
+      const bin = bins.get(center) || { soa: center, hits: 0, n: 0 };
+      bin.hits += r.answer === ANSWER.FLASH_FIRST ? 1 : 0;
+      bin.n++;
+      bins.set(center, bin);
+    }
+    return [...bins.values()].sort((a, b) => a.soa - b.soa);
+  }
+
+  // --- Chart -----------------------------------------------------------------
+
+  function drawChart() {
+    const c = $("chart"), ctx = c.getContext("2d");
+    const dpr = window.devicePixelRatio || 1;
+    const w = c.clientWidth, h = c.clientHeight;
+    c.width = w * dpr;
+    c.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+
+    const all = [...data.baseline, ...data.adapted];
+    const soas = all.map(r => r.soa);
+    const PAD = 50;
+    const xMin = Math.min(-200, Math.floor(Math.min(...soas, 0) / PAD) * PAD);
+    const xMax = Math.max(300, Math.ceil(Math.max(...soas, 0) / PAD) * PAD);
+
+    const left = 60, right = 20, top = 30, bottom = 55;
+    const x = d => left + ((d - xMin) / (xMax - xMin)) * (w - left - right);
+    const y = p => h - bottom - p * (h - top - bottom);
+
+    ctx.strokeStyle = "#555";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(left, top); ctx.lineTo(left, h - bottom); ctx.lineTo(w - right, h - bottom);
+    ctx.stroke();
+
+    // Axis ticks and labels.
+    ctx.fillStyle = "#aaa";
+    ctx.font = "13px system-ui";
+    ctx.textAlign = "center";
+    for (let v = Math.ceil(xMin / 100) * 100; v <= xMax; v += 100) ctx.fillText(`${v}`, x(v), h - bottom + 22);
+    ctx.textAlign = "right";
+    [0, .25, .5, .75, 1].forEach(p => ctx.fillText(`${Math.round(p * 100)}%`, left - 10, y(p) + 4));
+    ctx.textAlign = "center";
+    ctx.fillText("Flash timing relative to your keypress (ms)", (left + w - right) / 2, h - 12);
+
+    ctx.save();
+    ctx.translate(14, (top + h - bottom) / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('said "flash first"', 0, 0);
+    ctx.restore();
+
+    // Simultaneity reference and the 50% response line.
+    ctx.strokeStyle = "#666";
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(x(0), top); ctx.lineTo(x(0), h - bottom); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(left, y(.5)); ctx.lineTo(w - right, y(.5)); ctx.stroke();
+    ctx.setLineDash([]);
+
+    function drawBlock(rows, fit, color) {
+      if (fit) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (let px = left; px <= w - right; px++) {
+          const soa = xMin + ((px - left) / (w - left - right)) * (xMax - xMin);
+          const py = y(fit.curve(soa));
+          px === left ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+      }
+
+      const DOT_MIN = 3, DOT_PER_TRIAL = 1.6;
+      ctx.fillStyle = color;
+      binRows(rows).forEach(b => {
+        ctx.beginPath();
+        ctx.arc(x(b.soa), y(b.hits / b.n), DOT_MIN + Math.min(b.n, 5) * DOT_PER_TRIAL / 2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      if (fit && fit.pss !== null) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.setLineDash([2, 4]);
+        ctx.beginPath(); ctx.moveTo(x(fit.pss), y(.5)); ctx.lineTo(x(fit.pss), h - bottom); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    const baseFit = fitCurve(data.baseline);
+    const adaptFit = fitCurve(data.adapted);
+    drawBlock(data.baseline, baseFit, BASE_COLOR);
+    drawBlock(data.adapted, adaptFit, ADAPT_COLOR);
+
+    // Legend.
+    const LEGEND = [["baseline", BASE_COLOR], ["after adaptation", ADAPT_COLOR]];
+    ctx.textAlign = "left";
+    let lx = left + 10;
+    LEGEND.forEach(([label, color]) => {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(lx, top - 12); ctx.lineTo(lx + 24, top - 12); ctx.stroke();
+      ctx.fillStyle = "#ccc";
+      ctx.fillText(label, lx + 32, top - 8);
+      lx += 44 + ctx.measureText(label).width;
+    });
+
+    return { baseFit, adaptFit };
+  }
+
+  // --- Results ---------------------------------------------------------------
+
+  const ms = v => `${v >= 0 ? "+" : ""}${v.toFixed(0)} ms`;
+
+  function showResults() {
+    show("results");
+    const { baseFit, adaptFit } = drawChart();
+
+    const basePss = baseFit && baseFit.pss;
+    const adaptPss = adaptFit && adaptFit.pss;
+    $("pssBase").textContent = basePss === null || basePss === undefined ? "not resolved" : ms(basePss);
+    $("pssAdapt").textContent = adaptPss === null || adaptPss === undefined ? "not resolved" : ms(adaptPss);
+    $("trialStat").textContent = `${data.baseline.length} + ${data.adapted.length}`;
+    $("dropStat").textContent = data.interrupted
+      ? `${data.dropped + data.interrupted} (${data.interrupted} off-screen)`
+      : `${data.dropped}`;
+    running = false;
+    $("hzStat").textContent = data.refreshHz ? `${data.refreshHz.toFixed(0)} Hz` : "not measured";
+
+    const shift = (basePss !== null && basePss !== undefined && adaptPss !== null && adaptPss !== undefined)
+      ? adaptPss - basePss
+      : null;
+    $("shiftStat").textContent = shift === null ? "not resolved" : ms(shift);
+
+    if (shift === null) {
+      $("resultTitle").textContent = "Not enough signal this time.";
+      $("verdict").textContent =
+        "Your judgments didn't vary systematically with the actual flash timing, so no simultaneity point could be fitted. " +
+        "That usually means the responses were near-random — try again, pressing as fast as you can on the cue and answering on gut feel.";
+      return;
+    }
+
+    // A shift is only worth claiming if the bootstrap interval clears zero.
+    const ci = bootstrapShift(data.baseline, data.adapted);
+    const range = ci ? ` (95% CI ${ms(ci.lo)} to ${ms(ci.hi)})` : "";
+
+    if (ci && ci.lo > 0) {
+      $("resultTitle").textContent = "Your brain recalibrated.";
+      $("verdict").textContent =
+        `After adapting to the ${ADAPT_DELAY_MS} ms delay, a flash had to arrive ${ms(shift)} later than before to feel simultaneous with your press${range}. ` +
+        `The physical timings were identical in both blocks — only your perception moved.`;
+      return;
+    }
+
+    if (shift > 0) {
+      $("resultTitle").textContent = "A shift, but not a decisive one.";
+      $("verdict").textContent =
+        `Your simultaneity point moved ${ms(shift)}${range}, in the direction recalibration predicts, but the interval still includes zero — ` +
+        `so this run can't separate the effect from your own response noise. Running it again and comparing is the honest next step.`;
+      return;
+    }
+
+    $("resultTitle").textContent = "No recalibration detected.";
+    $("verdict").textContent =
+      `Your simultaneity point moved ${ms(shift)}${range}, i.e. against the direction recalibration predicts. ` +
+      `Over this many judgments that is well within noise; the effect needs more trials, or a longer adaptation block, to show reliably.`;
+  }
+
+  $("download").addEventListener("click", () => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "brain-time-data.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // --- Run -------------------------------------------------------------------
+
+  // Once running, SPACE belongs to the experiment: never to scrolling, and
+  // never to whatever control happens to hold focus.
+  window.addEventListener("keydown", e => {
+    if (running && e.code === "Space") e.preventDefault();
+  }, true);
+
+  $("start").addEventListener("click", async () => {
+    $("start").disabled = true;
+    running = true;
+    data.refreshHz = await estimateRefresh();
+
+    show("familiar");
+    await runPresses($("familiarSpot"), $("familiarStatus"), $("familiarBar"), FAMILIAR_PRESSES, 0);
+
+    // Baseline judgments first: measuring them after adaptation would measure
+    // an already-recalibrated brain.
+    show("toj");
+    $("tojTitle").textContent = "Baseline: how you normally perceive the timing";
+    $("tojIntro").textContent =
+      "Press SPACE the moment you're told to. The flash may come before or after your press. Each time we ask, say which one came first — F for flash, P for press.";
+    await wait(1200);
+    await runTojBlock(data.baseline, 0);
+
+    show("adapt");
+    await wait(600);
+    await runPresses($("adaptSpot"), $("adaptStatus"), $("adaptBar"), ADAPT_PRESSES, ADAPT_DELAY_MS);
+
+    show("toj");
+    $("tojTitle").textContent = "Same measurement, adapted brain";
+    $("tojIntro").textContent =
+      "Same task again. Between judgments, the delay you just adapted to is maintained, so your recalibration doesn't wear off mid-block.";
+    $("tojBar").style.width = "0%";
+    await wait(1200);
+    await runTojBlock(data.adapted, ADAPT_DELAY_MS);
+
+    // Delay removed: this is where the flash can feel like it beat the press.
+    show("illusion");
+    await wait(600);
+    await runPresses($("illusionSpot"), $("illusionStatus"), $("illusionBar"), ILLUSION_PRESSES, 0);
+    $("illusionStatus").textContent = "Did any flash seem to happen BEFORE you pressed?";
+    data.illusion = await ask($("illusionChoice"), {});
+
+    showResults();
+  });
+})();
+</script>
+</body>
+</html>
