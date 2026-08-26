@@ -71,7 +71,7 @@ if (window.parent !== window) document.documentElement.classList.add("embedded")
       <li><b>Measurement again</b>, with the delay maintained.</li>
       <li>The delay is removed, and you see what that feels like.</li>
     </ol>
-    <p>Takes about 6 minutes. <b>Use a physical keyboard</b> on a desktop or laptop, and avoid other activity while it runs.</p>
+    <p>Takes about 5 minutes. <b>Use a physical keyboard</b> on a desktop or laptop, and avoid other activity while it runs.</p>
     <button id="start">Start experiment</button>
   </div>
 </section>
@@ -187,18 +187,28 @@ if (window.parent !== window) document.documentElement.classList.add("embedded")
   // --- Parameters ------------------------------------------------------------
 
   const ADAPT_DELAY_MS = 200;        // delay inserted between press and flash
-  const FAMILIAR_PRESSES = 12;
-  const ADAPT_PRESSES = 40;
+  const FAMILIAR_PRESSES = 10;
+  const ADAPT_PRESSES = 40;   // the block that builds the recalibration; not trimmed
   const ILLUSION_PRESSES = 10;
   const FLASH_MS = 45;
 
   // Each measurement block interleaves probe trials (judged) with exposure
   // trials (not judged) that hold the block's adaptation state in place.
+  // Probe SOAs are symmetric about zero, so probe trials actively pull the
+  // adaptation back toward no lag. Exposure has to outnumber them or the block
+  // erodes the very state it is measuring: at 33% exposure the mean lag met
+  // during the adapted block was only ~67 ms of the nominal 200, where this
+  // 56/44 split holds it near 110 ms. Published protocols use 60/40; the few
+  // trials between there and here buy more in session length than they cost.
   const PROBE_SOAS = [-150, -100, -50, 0, 50, 100, 150];
   const PROBE_REPS = 4;
-  const EXPOSURE_TRIALS = 14;
+  const EXPOSURE_TRIALS = 36;
 
-  const CUE_WAIT_MS = 700, CUE_JITTER_MS = 600, TRIAL_GAP_MS = 350;
+  // The wait before each cue exists to stop the cue becoming predictable, which
+  // takes unpredictability, not length: 450-900 ms is as unguessable as
+  // 700-1300 was and returns most of a minute across the two blocks. Probe
+  // count is deliberately not what gets trimmed — it is the measurement.
+  const CUE_WAIT_MS = 450, CUE_JITTER_MS = 450, TRIAL_GAP_MS = 250;
   const MIN_RT_MS = 120, MAX_RT_MS = 1200;  // outside this the trial is dropped
   const RT_WINDOW = 10, START_RT_MS = 350, RT_FLOOR_MS = 180, RT_CEIL_MS = 700;
   const FRAME_GUARD_MS = 6;                 // hand off from setTimeout to rAF
@@ -690,10 +700,11 @@ if (window.parent !== window) document.documentElement.classList.add("embedded")
     }
 
     if (shift > 0) {
-      $("resultTitle").textContent = "A shift, but not a decisive one.";
+      $("resultTitle").textContent = "A shift in the right direction.";
       $("verdict").textContent =
-        `Your simultaneity point moved ${ms(shift)}${range}, in the direction recalibration predicts, but the interval still includes zero — ` +
-        `so this run can't separate the effect from your own response noise. Running it again and comparing is the honest next step.`;
+        `Your simultaneity point moved ${ms(shift)}${range} — the direction recalibration predicts, with an interval that still includes zero. ` +
+        `That is the ordinary result here rather than a failed run: recalibration recovers only about a third of the injected delay, which is a small ` +
+        `quantity next to one session's worth of response noise. Repeating the run, or pooling across people, is how the effect is normally established.`;
       return;
     }
 
