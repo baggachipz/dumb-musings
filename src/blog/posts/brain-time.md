@@ -5,7 +5,7 @@ description: Showing you how your brain processes time.
 date: 2026-08-25
 ---
 
-I recently listened to [Neil deGrasse Tyson's podcast](https://startalkmedia.com/show/your-inner-cosmos-with-david-eagleman/) With David Eagleman. In it, they discussed an [experiment](https://edge.org/conversation/brain-time) where people's perception of timing is skewed; sometimes, something can appear to happen before it even does. This fascinated me, so I cobbled together a little demonstration to play with. Enjoy!
+I recently listened to [Neil deGrasse Tyson's podcast](https://startalkmedia.com/show/your-inner-cosmos-with-david-eagleman/) With David Eagleman. In it, they discussed an [experiment](https://edge.org/conversation/brain-time) where people's perception of timing is skewed; sometimes, something can appear to happen before it even does. This fascinated me, so I (and Claude) cobbled together a little demonstration to play with. Enjoy!
 
 <iframe
   id="brain-time"
